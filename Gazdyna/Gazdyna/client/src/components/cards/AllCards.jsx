@@ -34,7 +34,7 @@ const Index = ({ mainTitle, tagline, type, data }) => {
     onIngredientsMultiSelect,
   } = useFilteredCards(data);
 
-  const [showFilterPage, setShowFilterPage] = useState(true);
+  const [showFilterPage, setShowFilterPage] = useState(false);
 
   const onOpenFilterPage = () => {
     setShowFilterPage((prevValue) => !prevValue);

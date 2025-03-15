@@ -27,6 +27,7 @@ const Index = ({ mainTitle, tagline, type, data }) => {
     carbs,
     fat,
     protein,
+    ingredients: selectedIngredients,
     createdAt,
     onFieldChange,
     onResetFilters,
@@ -64,6 +65,7 @@ const Index = ({ mainTitle, tagline, type, data }) => {
               carbs={carbs}
               onResetFilters={onResetFilters}
               fat={fat}
+              selectedIngredients={selectedIngredients}
               protein={protein}
               onIngredientsMultiSelect={onIngredientsMultiSelect}
               onToggleFilter={onOpenFilterPage}
@@ -130,6 +132,7 @@ const FilterContainer = ({
   onFieldChange,
   timeRange,
   createdAt,
+  selectedIngredients,
   onToggleFilter,
   ingredients,
   onResetFilters,
@@ -203,7 +206,11 @@ const FilterContainer = ({
         <div className='my-8'>
           <h3 className='font-bold text-xs uppercase mb-1'>Ingredients</h3>
 
-          <MultiSelect data={ingredients} onSelect={onIngredientsMultiSelect} />
+          <MultiSelect
+            data={ingredients}
+            selectedIngredients={selectedIngredients}
+            onSelect={onIngredientsMultiSelect}
+          />
         </div>
       </div>
       <div className='flex flex-col-reverse flex-1'>

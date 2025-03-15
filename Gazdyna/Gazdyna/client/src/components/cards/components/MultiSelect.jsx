@@ -14,8 +14,8 @@ const MenuProps = {
   },
 };
 
-export default function MultipleSelect({ data, onSelect }) {
-  const [ingredients, setIngredients] = useState([]);
+export default function MultipleSelect({ data, onSelect, selectedIngredients }) {
+  const [ingredients, setIngredients] = useState(selectedIngredients);
 
   const handleChange = (event) => {
     const {
@@ -25,6 +25,10 @@ export default function MultipleSelect({ data, onSelect }) {
 
     onSelect();
   };
+
+  useEffect(() => {
+    setIngredients(selectedIngredients);
+  }, [selectedIngredients]);
 
   useEffect(() => {
     onSelect(ingredients);

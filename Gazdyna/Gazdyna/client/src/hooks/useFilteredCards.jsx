@@ -14,19 +14,21 @@ export const TIME_RANGE = {
 };
 
 const useFilteredCards = (initialData = []) => {
-  const [state, setState] = useState({
+  const initialState = {
     searchTerm: '',
     kcalRange: [0, 9999],
     timeRange: [0, 3600],
     carbs: 0,
     fat: 0,
     protein: 0,
-    createdAt: dayjs(),
-  });
+    ingredients: [],
+    createdAt: null,
+  };
 
+  const [state, setState] = useState(initialState);
   const [data, setData] = useState(initialData);
 
-  const { kcalRange, searchTerm, timeRange, carbs, fat, protein, createdAt } = state;
+  const { kcalRange, searchTerm, timeRange, carbs, fat, protein, createdAt, ingredients } = state;
 
   const onFieldChange = (event) => {
     const { value, name } = event.target;
@@ -37,16 +39,43 @@ const useFilteredCards = (initialData = []) => {
     setState((prevValue) => ({ ...prevValue, [name]: value }));
   };
 
+  const onIngredientsMultiSelect = (ingredients) => {
+    if (!ingredients) return;
+
+    setState((prevValue) => ({ ...prevValue, ingredients }));
+  };
+
   useEffect(() => {
-    const filteredData = filterByDate(
-      filterDataByTimeCooking(filterDataByKcal(filterDataBySearch(initialData, searchTerm), kcalRange), timeRange),
-      createdAt
+    const filteredData = filterByIngredients(
+      filterByDate(
+        filterDataByTimeCooking(filterDataByKcal(filterDataBySearch(initialData, searchTerm), kcalRange), timeRange),
+        createdAt
+      ),
+      ingredients
     );
 
     setData(filteredData);
-  }, [timeRange, kcalRange, searchTerm, createdAt, initialData]);
+  }, [timeRange, kcalRange, searchTerm, createdAt, ingredients, initialData]);
 
-  return { onFieldChange, searchTerm, data, kcalRange, timeRange, carbs, fat, protein, createdAt, onDatePick };
+  const onResetFilters = () => {
+    setState(initialState);
+  };
+
+  return {
+    searchTerm,
+    data,
+    kcalRange,
+    timeRange,
+    carbs,
+    fat,
+    ingredients,
+    protein,
+    createdAt,
+    onDatePick,
+    onFieldChange,
+    onResetFilters,
+    onIngredientsMultiSelect,
+  };
 };
 
 export default useFilteredCards;
@@ -74,7 +103,25 @@ const filterDataByTimeCooking = (data, timeRange) => {
 };
 
 const filterByDate = (data, createdAt) => {
+  if (createdAt === null) return data;
+
   const filtered = data.filter((element) => dayjs(element.createdAt).isSame(dayjs(createdAt), 'day'));
+
+  return filtered;
+};
+
+const filterByIngredients = (data, ingredients) => {
+  if (ingredients.length == 0) return data;
+
+  const filtered = [];
+
+  data.forEach((data) => {
+    const { ingredients: dataIngredient } = data;
+
+    const inList = dataIngredient.some((ingredient) => ingredients.includes(ingredient));
+
+    if (inList) filtered.push(data);
+  });
 
   return filtered;
 };

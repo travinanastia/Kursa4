@@ -1,4 +1,6 @@
-const express = require("express");
+/** @format */
+
+const express = require('express');
 const {
   getAllRecipes,
   getRecipe,
@@ -9,71 +11,41 @@ const {
   addComment,
   deleteComment,
   toggleFavoriteRecipe,
-} = require("../controllers/recipeController");
-const ROLES_LIST = require("../config/rolesList");
-const verifyJwt = require("../middleware/verifyJwt");
-const verifyRoles = require("../middleware/verifyRoles");
+  generateRecipeBasedOnPromptAi,
+} = require('../controllers/recipeController');
+const ROLES_LIST = require('../config/rolesList');
+const verifyJwt = require('../middleware/verifyJwt');
+const verifyRoles = require('../middleware/verifyRoles');
 
 const router = express.Router();
 
 router
-  .route("/")
+  .route('/')
   .get(getAllRecipes)
-  .post(
-    [verifyJwt, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.ProUser)],
-    addRecipe
-  );
+  .post([verifyJwt, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.ProUser)], addRecipe);
+
+router.route('/ai-recipe').post(generateRecipeBasedOnPromptAi);
+// "Cast to ObjectId failed for value \"ai-recipes\" (type string) at path \"_id\" for model \"Recipe\""
+router
+  .route('/rate/:id')
+  .put([verifyJwt, verifyRoles(ROLES_LIST.BasicUser, ROLES_LIST.ProUser, ROLES_LIST.Admin)], rateRecipe);
 
 router
-  .route("/rate/:id")
-  .put(
-    [
-      verifyJwt,
-      verifyRoles(ROLES_LIST.BasicUser, ROLES_LIST.ProUser, ROLES_LIST.Admin),
-    ],
-    rateRecipe
-  );
-
-router
-  .route("/:id")
+  .route('/:id')
   .get(getRecipe)
-  .put(
-    [verifyJwt, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.ProUser)],
-    updateRecipe
-  )
-  .delete(
-    [verifyJwt, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.ProUser)],
-    deleteRecipe
-  );
+  .put([verifyJwt, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.ProUser)], updateRecipe)
+  .delete([verifyJwt, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.ProUser)], deleteRecipe);
 
 router
-  .route("/comment/:id")
-  .put(
-    [
-      verifyJwt,
-      verifyRoles(ROLES_LIST.BasicUser, ROLES_LIST.ProUser, ROLES_LIST.Admin),
-    ],
-    addComment
-  );
+  .route('/comment/:id')
+  .put([verifyJwt, verifyRoles(ROLES_LIST.BasicUser, ROLES_LIST.ProUser, ROLES_LIST.Admin)], addComment);
 
 router
-  .route("/comment/:recipeId/:commentId")
-  .delete(
-    [
-      verifyJwt,
-      verifyRoles(ROLES_LIST.BasicUser, ROLES_LIST.ProUser, ROLES_LIST.Admin),
-    ],
-    deleteComment
-  );
+  .route('/comment/:recipeId/:commentId')
+  .delete([verifyJwt, verifyRoles(ROLES_LIST.BasicUser, ROLES_LIST.ProUser, ROLES_LIST.Admin)], deleteComment);
 
 router
-  .route("/favorite/:id")
-  .put(
-    [
-      verifyJwt,
-      verifyRoles(ROLES_LIST.BasicUser, ROLES_LIST.ProUser, ROLES_LIST.Admin),
-    ],
-    toggleFavoriteRecipe
-  );
+  .route('/favorite/:id')
+  .put([verifyJwt, verifyRoles(ROLES_LIST.BasicUser, ROLES_LIST.ProUser, ROLES_LIST.Admin)], toggleFavoriteRecipe);
 
 module.exports = router;

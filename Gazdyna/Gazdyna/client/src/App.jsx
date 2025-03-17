@@ -52,11 +52,12 @@ function App() {
 
             <Route path='/' element={<RootLayout />}>
               <Route index element={<Home />} />
+              <Route path='ai-recipe' element={<AiRecipe />} />
+
               <Route path='recipe'>
                 <Route index element={<Recipe />} />
                 <Route path=':id' element={<SingleRecipe />} />
                 <Route path='saved' element={<SavedRecipes />} />
-                <Route path='ai-recipe' element={<AiRecipe />} />
 
                 <Route element={<RequireAuth allowedRoles={[ROLES.ProUser, ROLES.Admin]} />}>
                   <Route path='add' element={<AddRecipe />} />

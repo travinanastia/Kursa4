@@ -1,81 +1,90 @@
-import { apiSlice } from "../../redux/apiSlice";
+/** @format */
+
+import { apiSlice } from '../../redux/apiSlice';
 
 export const recipeApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getRecipe: builder.query({
       query: (recipeId) => `/recipe/${recipeId}`,
-      providesTags: ["recipes"],
+      providesTags: ['recipes'],
     }),
     getRecipes: builder.query({
-      query: () => "/recipe",
-      providesTags: ["recipes"],
+      query: () => '/recipe',
+      providesTags: ['recipes'],
     }),
     addRecipe: builder.mutation({
       query: (recipeData) => ({
-        url: "/recipe",
-        method: "POST",
+        url: '/recipe',
+        method: 'POST',
         body: { ...recipeData },
       }),
-      invalidatesTags: ["recipes"],
+      invalidatesTags: ['recipes'],
     }),
     updateRecipe: builder.mutation({
       query: (args) => {
         const { recipeId, ...recipeData } = args;
         return {
           url: `/recipe/${recipeId}`,
-          method: "PUT",
+          method: 'PUT',
           body: { ...recipeData },
         };
       },
-      invalidatesTags: ["recipes"],
+      invalidatesTags: ['recipes'],
     }),
     rateRecipe: builder.mutation({
       query: (args) => {
         const { recipeId, rating } = args;
         return {
           url: `/recipe/rate/${recipeId}`,
-          method: "PUT",
+          method: 'PUT',
           body: { rating },
         };
       },
-      invalidatesTags: ["recipes"],
+      invalidatesTags: ['recipes'],
     }),
     deleteRecipe: builder.mutation({
       query: (recipeId) => ({
         url: `/recipe/${recipeId}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
-      invalidatesTags: ["recipes"],
+      invalidatesTags: ['recipes'],
     }),
     commentRecipe: builder.mutation({
       query: (args) => {
         const { recipeId, comment } = args;
         return {
           url: `/recipe/comment/${recipeId}`,
-          method: "PUT",
+          method: 'PUT',
           body: { comment },
         };
       },
-      invalidatesTags: ["recipes"],
+      invalidatesTags: ['recipes'],
     }),
     deleteCommentRecipe: builder.mutation({
       query: (args) => {
         const { recipeId, commentId } = args;
         return {
           url: `/recipe/comment/${recipeId}/${commentId}`,
-          method: "DELETE",
+          method: 'DELETE',
         };
       },
-      invalidatesTags: ["recipes"],
+      invalidatesTags: ['recipes'],
     }),
     toggleFavorite: builder.mutation({
       query: ({ recipeId }) => {
         return {
           url: `/recipe/favorite/${recipeId}`,
-          method: "PUT",
+          method: 'PUT',
         };
       },
-      invalidatesTags: ["recipes"],
+      invalidatesTags: ['recipes'],
+    }),
+
+    aiGetRecipe: builder.mutation({
+      query: ({ message }) => {
+        return { url: '/recipe/ai-recipe', method: 'POST', body: { ingredients: message } };
+      },
+      providesTags: ['recipes'],
     }),
   }),
 });
@@ -90,4 +99,5 @@ export const {
   useCommentRecipeMutation,
   useDeleteCommentRecipeMutation,
   useToggleFavoriteMutation,
+  useAiGetRecipeMutation,
 } = recipeApiSlice;

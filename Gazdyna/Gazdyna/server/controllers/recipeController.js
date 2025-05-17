@@ -213,7 +213,6 @@ const generateRecipeBasedOnPromptAi = async (req, res, next) => {
       ],
     });
     res.status(201).json({ success: 'Recipe added successfully', data: completion.choices[0].message.content });
-    // res.status(201).json({ success: 'Recipe added successfully', data: ingredients });
   } catch (error) {
     next(error);
   }

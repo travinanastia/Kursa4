@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <header className='shadow-sm sticky top-0 backdrop-blur-sm bg-[#fffefc] z-20'>
       <div className='box !mb-0 flex justify-between items-center py-3'>
-        <Logo />
+        <Logo />          
         {/* Desktop navbar */}
         <nav>
           {/* Navbar links */}
@@ -43,24 +43,26 @@ const Header = () => {
                 Recipes
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to={'/ai-recipe'}
-                className="relative w-fit block after:block after:content-[''] after:absolute after:h-[2px] after:bg-primary after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center font-semibold text-gray-600"
-              >
-                <Badge
-                  badgeContent={'New'}
-                  sx={{
-                    '& .MuiBadge-badge': {
-                      backgroundColor: '#ff0c7e',
-                      color: 'white',
-                    },
-                  }}
+            {user && (
+              <li>
+                <NavLink
+                  to={'/ai-recipe'}
+                  className="relative w-fit block after:block after:content-[''] after:absolute after:h-[2px] after:bg-primary after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center font-semibold text-gray-600"
                 >
-                  Ai Recipes
-                </Badge>
-              </NavLink>
-            </li>
+                  <Badge
+                    badgeContent={'New'}
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        backgroundColor: '#ff0c7e',
+                        color: 'white',
+                      },
+                    }}
+                  >
+                    Ai Recipes
+                  </Badge>
+                </NavLink>
+              </li>
+            )}
 
             <li>
               <NavLink

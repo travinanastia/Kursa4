@@ -17,6 +17,7 @@ import {
   Users,
   SignIn,
   SignUp,
+  Subscription,
   AiRecipe,
 } from './pages';
 import { PageLoading } from './components';
@@ -52,6 +53,9 @@ function App() {
 
             <Route path='/' element={<RootLayout />}>
               <Route index element={<Home />} />
+              <Route path='subscription'>
+                <Route path='payment/:id' element={<Subscription />} />
+              </Route>
               <Route path='ai-recipe' element={<AiRecipe />} />
 
               <Route path='recipe'>

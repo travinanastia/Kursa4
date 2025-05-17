@@ -24,8 +24,10 @@ router
   .get(getAllRecipes)
   .post([verifyJwt, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.ProUser)], addRecipe);
 
-router.route('/ai-recipe').post(generateRecipeBasedOnPromptAi);
-// "Cast to ObjectId failed for value \"ai-recipes\" (type string) at path \"_id\" for model \"Recipe\""
+router
+  .route('/ai-recipe')
+  .post([verifyJwt, verifyRoles(ROLES_LIST.Admin, ROLES_LIST.ProUser)], generateRecipeBasedOnPromptAi);
+
 router
   .route('/rate/:id')
   .put([verifyJwt, verifyRoles(ROLES_LIST.BasicUser, ROLES_LIST.ProUser, ROLES_LIST.Admin)], rateRecipe);

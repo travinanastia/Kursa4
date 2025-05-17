@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+/** @format */
+
+const mongoose = require('mongoose');
 
 const schema = mongoose.Schema(
   {
@@ -11,16 +13,20 @@ const schema = mongoose.Schema(
     password: {
       type: String,
     },
-    profilePicture: { type: String, default: "" },
+    profilePicture: { type: String, default: '' },
     favorites: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Recipe",
+        ref: 'Recipe',
       },
     ],
     roles: {
       type: [String],
-      default: ["BasicUser"],
+      default: ['BasicUser'],
+    },
+    subscribed: {
+      type: Boolean,
+      default: false,
     },
     isDisabled: { type: Boolean, default: false },
     refreshToken: { type: [String] },
@@ -30,5 +36,5 @@ const schema = mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", schema);
+const User = mongoose.model('User', schema);
 module.exports = User;

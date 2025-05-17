@@ -86,6 +86,11 @@ export const recipeApiSlice = apiSlice.injectEndpoints({
       },
       providesTags: ['recipes'],
     }),
+
+    subscriptionPayment: builder.query({
+      query: ({ userId }) => `/subscription/payment/${userId}`,
+      providesTags: ['subscription'],
+    }),
   }),
 });
 
@@ -100,4 +105,5 @@ export const {
   useDeleteCommentRecipeMutation,
   useToggleFavoriteMutation,
   useAiGetRecipeMutation,
+  useSubscriptionPaymentQuery,
 } = recipeApiSlice;

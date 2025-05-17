@@ -15,6 +15,7 @@ const AddRecipe = lazy(() => import('./recipe/AddRecipe'));
 const MyRecipes = lazy(() => import('./recipe/MyRecipes'));
 const EditRecipe = lazy(() => import('./recipe/EditRecipe'));
 const AiRecipe = lazy(() => import('./recipe/AirRecipe'));
+const Subscription = lazy(() => import('./subscription/Subscription'));
 
 const Users = lazy(() => import('./dashboard/Users'));
 const DashboardRecipes = lazy(() => import('./dashboard/DashboardRecipes'));
@@ -28,6 +29,7 @@ export {
   Profile,
   Recipe,
   SingleRecipe,
+  Subscription,
   SavedRecipes,
   AddRecipe,
   MyRecipes,
